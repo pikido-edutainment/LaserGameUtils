@@ -1,2 +1,2 @@
 # LaserGameUtils
-Some Utilities that may be helpful when building a laser game
+Some Utilities that may be helpful when building a laser game on ESP32
