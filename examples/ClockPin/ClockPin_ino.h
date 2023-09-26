@@ -1,8 +1,8 @@
-// by Marius Versteegen, 2022
+// by Marius Versteegen, 2023
 
 #include <ClockPin.h>
 
-crt::ClockPin clockPin(2 /*gpio*/, 38000 /*freqHz*/);  // Define 38kHz clock for gpio pin 2.
+crt::ClockPin clockPin(2 /*gpio*/, 38000 /*freqHz*/, false /*Invert GPIO*/);  // Define 38kHz clock for gpio pin 2.
 
 void setup() {
 }

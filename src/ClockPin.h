@@ -1,4 +1,4 @@
-// by Marius Versteegen, 2022
+// by Marius Versteegen, 2023
 
 #include "driver/ledc.h"
 #include "driver/periph_ctrl.h"
@@ -15,7 +15,8 @@ namespace crt
         uint32_t       freqHz;
 
     public:
-        ClockPin(int32_t gpio, uint32_t freqHz) :gpio(gpio), freqHz(freqHz)
+        // If bInvertOutput is true, then the output signal is high when the clockpin is "disabled".
+        ClockPin(int32_t gpio, uint32_t freqHz, bool bInvertGPIO) :gpio(gpio), freqHz(freqHz)
         {
             periph_module_enable(PERIPH_LEDC_MODULE);
 
@@ -37,7 +38,8 @@ namespace crt
               .intr_type = LEDC_INTR_DISABLE,
               .timer_sel = ledcTimer,
               .duty = 1,
-              .hpoint = 0
+              .hpoint = 0,
+              .flags = {.output_invert = (unsigned int)(bInvertGPIO ? 1 : 0)}
             };
             ledc_channel_config(&channel_config);
 
@@ -47,6 +49,7 @@ namespace crt
         void enable()
         {
             ledc_timer_resume(ledcMode, ledcTimer);
+            ledc_timer_rst(ledcMode, ledcTimer);
         }
 
         void disable()
